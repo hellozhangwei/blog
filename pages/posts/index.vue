@@ -11,8 +11,14 @@
     components : {
       PostList
     },
-    asyncData(context) {
-     return new Promise((resolve, reject) => {
+    /*
+    fetch(context) {
+      
+      // if(context.store.state.loadedPosts.length > 0) {
+      //  return null
+      // }
+      
+      return new Promise((resolve, reject) => {
         setTimeout(() => {
           resolve({loadedPosts: [
             {id:"1", title:"my first title", previewText:"My first preview", thumbnail:"https://miro.medium.com/max/2000/0*kBHpKva09AsGj7RQ"},
@@ -22,11 +28,24 @@
 
         //reject(new Error())
       }).then(data=>{
-        return data
+        context.store.commit('setPosts', data.loadedPosts)
+        //return data
       }).catch(e=>{
 
       })
+    },
+    */
+
+    computed: {
+      loadedPosts() {
+        console.log("================33=====")
+        return this.$store.getters.loadedPosts
+      }
     }
+    /*,
+    created() {
+      this.$store.dispatch('setPosts', this.loadedPosts)
+    }*/
   }
 </script>
 <style scoped>

@@ -16,14 +16,20 @@ export default {
   components : {
     PostList
   },
-  asyncData(context, callback) {
+  /*asyncData(context, callback) {
       setTimeout(()=> {
         callback(null, {loadedPosts: [
           {id:"1", title:"my first title", previewText:"My first preview", thumbnail:"https://miro.medium.com/max/2000/0*kBHpKva09AsGj7RQ"},
           {id:"2", title:"my second title", previewText:"My second preview", thumbnail:"https://miro.medium.com/max/2000/0*kBHpKva09AsGj7RQ"}
         ]})
     })
-  }
+  }*/
+  computed: {
+      loadedPosts() {
+        console.log("================/index.vue computed loadedPosts=====")
+        return this.$store.getters.loadedPosts
+      }
+    }
   /* ,data() {
     return {
       loadedPosts: [
