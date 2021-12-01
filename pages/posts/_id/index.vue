@@ -1,13 +1,13 @@
 <template>
   <div class="single-page-post">
     <section class="post">
-      <h1 class="post-title">Title of the post</h1>
+      <h1 class="post-title">{{loadedPost.title}}</h1>
       <div class="post-details">
-        <div class="post-detail">Last udpated on 09/09/2001</div>
-        <div class="post-detail">Last udpated by Wei Zhang </div>
+        <div class="post-detail">Last udpated on {{loadedPost.updatedDate}}</div>
+        <div class="post-detail">Last udpated by {{loadedPost.author}} </div>
       </div>
       <p class="post-content">
-        Contend of post
+        {{loadedPost.content}}
       </p>
       <section class="post-feedback">
         <p><a href="mailto:zhangwei@apache.org">zhangwei@apache.org</a></p>
@@ -15,6 +15,26 @@
     </section>
   </div>
 </template>
+
+<script >
+  export default {
+    asyncData(context, callback) {
+    setTimeout(()=> {
+      callback(null, {
+        loadedPost: {
+          id:"1", 
+          author:"Wei Zhang",
+          updatedDate: new Date(),
+          content:"test content",
+          title:"My first title (ID:" + context.route.params.id + ")", 
+          previewText:"My first preview", 
+          thumbnail:"https://miro.medium.com/max/2000/0*kBHpKva09AsGj7RQ"
+        }
+      })
+    }, 1000)
+  }
+  }
+</script>
 
 <style scoped>
 

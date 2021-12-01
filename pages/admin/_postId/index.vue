@@ -15,13 +15,28 @@ export default {
   },
   data() {
     return {
-      loadedPost: {
+      /* loadedPost: {
         author: 'Wei zhang',
         title: '',
         content: '',
         thumbnailLink: ''
-      }
+      } */
     }
+  },
+  asyncData(context, callback) {
+    setTimeout(()=> {
+      callback(null, {
+        loadedPost: {
+          id:"1", 
+          author:"Wei Zhang",
+          updatedDate: new Date(),
+          content:"test content",
+          title:"my first title", 
+          previewText:"My first preview", 
+          thumbnail:"https://miro.medium.com/max/2000/0*kBHpKva09AsGj7RQ"
+        }
+      })
+    }, 1000)
   }
 }
 </script>

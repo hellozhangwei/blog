@@ -6,7 +6,7 @@
     <section class="existing-posts">
       <h1>Existing Posts</h1>
       <!-- <PostList :is-admin="true"/> -->
-      <PostList isAdmin/>
+      <PostList isAdmin :posts="loadedPosts"/>
     </section>
   </div>
 </template>
@@ -18,6 +18,14 @@ export default {
   components : {
     PostList,
     AppButton
+  },
+  asyncData(context, callback) {
+      setTimeout(()=> {
+        callback(null, {loadedPosts: [
+          {id:"1", title:"my first title", previewText:"My first preview", thumbnail:"https://miro.medium.com/max/2000/0*kBHpKva09AsGj7RQ"},
+          {id:"2", title:"my second title", previewText:"My second preview", thumbnail:"https://miro.medium.com/max/2000/0*kBHpKva09AsGj7RQ"}
+        ]})
+    })
   }
 }
   

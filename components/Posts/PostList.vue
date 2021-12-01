@@ -1,18 +1,13 @@
 <template>
   <section class="post-list">
     <PostPreview
-        id="1"
-        :is-admin="isAdmin"
-        thumbnail="https://miro.medium.com/max/2000/0*kBHpKva09AsGj7RQ"
-        title="Hello there"
-        previewText="This is my first post!"/>
-   
-    <PostPreview
+      v-for="post in posts"
+      :key="post.id"
+      :id="post.id"
       :is-admin="isAdmin"
-      id="2"
-      thumbnail="https://miro.medium.com/max/2000/0*kBHpKva09AsGj7RQ"
-      title="Hello there 2"
-      previewText="This is my first post 2!"/>
+      :thumbnail="post.thumbnail"
+      :title="post.title"
+      :previewText="post.previewText"/>
   </section>
 </template>
 
@@ -24,9 +19,13 @@ export default {
     PostPreview
   },
   props: {
-    isAdmin : {
+    isAdmin: {
       type: Boolean,
       default: false
+    },
+    posts: {
+      type: Array,
+      required: true
     }
   }
 }

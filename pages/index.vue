@@ -4,7 +4,7 @@
       <h1>Get teh laest tech news!</h1>
     </section>
     <!-- <section class="featured-posts"> -->
-      <PostList/>
+      <PostList :posts="loadedPosts"/>
     <!-- </section> -->
   </div>
 </template>
@@ -15,7 +15,23 @@ import PostList from '@/components/Posts/PostList'
 export default {
   components : {
     PostList
+  },
+  asyncData(context, callback) {
+      setTimeout(()=> {
+        callback(null, {loadedPosts: [
+          {id:"1", title:"my first title", previewText:"My first preview", thumbnail:"https://miro.medium.com/max/2000/0*kBHpKva09AsGj7RQ"},
+          {id:"2", title:"my second title", previewText:"My second preview", thumbnail:"https://miro.medium.com/max/2000/0*kBHpKva09AsGj7RQ"}
+        ]})
+    })
   }
+  /* ,data() {
+    return {
+      loadedPosts: [
+      {id:"1", title:"my first title", previewText:"My first preview", thumbnail:"https://miro.medium.com/max/2000/0*kBHpKva09AsGj7RQ"},
+      {id:"2", title:"my second title", previewText:"My second preview", thumbnail:"https://miro.medium.com/max/2000/0*kBHpKva09AsGj7RQ"}
+      ]
+    }
+  }*/
 }
   
 </script>
