@@ -19,6 +19,7 @@ export default {
     PostList,
     AppButton
   },
+  /*
   asyncData(context, callback) {
       setTimeout(()=> {
         callback(null, {loadedPosts: [
@@ -27,6 +28,13 @@ export default {
         ]})
     })
   }
+  */
+  computed: {
+      loadedPosts() {
+        console.log("================33=====")
+        return this.$store.getters.loadedPosts
+      }
+    }
 }
   
 </script>
