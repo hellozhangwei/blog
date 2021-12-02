@@ -51,12 +51,19 @@ export default {
     onSubmitted(editedPost) {
       console.log('------editedPost----------' + JSON.stringify(editedPost))
       console.log('------this.$route.params.postId----------' + this.$route.params.postId)
+      
+      /*
       axios.put('http://localhost:8080/rest/e1/posts/' + this.$route.params.postId, editedPost, {headers: {Authorization: 'Basic am9obi5kb2U6bW9xdWk='}})
       .then(res=>{
           //console.log(res)
           this.$router.push('/admin')
         })
       .catch(e=>console.error(e))
+      */
+      this.$store.dispatch('editPost', editedPost)
+        .then(res=>{
+          this.$router.push('/admin')
+        })
     }
   }
 }

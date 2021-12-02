@@ -21,9 +21,16 @@ export default {
         .then(result=>console.log(result))
         .catch(e=>console.error(e))
       */
+
+      /*
       axios.post('http://localhost:8080/rest/e1/posts', {...postData, updatedDate:new Date()}, {headers: {Authorization: 'Basic am9obi5kb2U6bW9xdWk='}})
         .then(result=>console.log(result))
         .catch(e=>console.error(e))
+      */
+      this.$store.dispatch('addPost', postData)
+        .then(()=>{
+          this.$router.push('/admin')
+        })
     }
   }
 }

@@ -9,6 +9,14 @@ const createStore = ()=> {
     mutations: {
       setPosts(state, posts) {
         state.loadedPosts = posts
+      },
+      addPost(state, post) {
+        state.loadedPosts.push(post)
+      },
+      editPost(state, editedPost) {
+        const postIndex = state.loadedPosts.findIndex(post=>post.id===editedPost.id)
+
+        state.loadedPosts[postIndex] = editedPost
       }
     },
     actions: {
@@ -50,6 +58,22 @@ const createStore = ()=> {
         })
         */
         
+      },
+      addPost(vuexContext, post) {
+        const createdPost = {...post, updatedDate:new Date()}
+        return axios.post('http://localhost:8080/rest/e1/posts', createdPost, {headers: {Authorization: 'Basic am9obi5kb2U6bW9xdWk='}})
+          .then(res=>{
+            console.log('-----------66-------------res----' + JSON.stringify(res))
+            vuexContext.commit('addPost', {...createdPost, id:res.data.id})
+          })
+          .catch(e=>console.error(e))
+      },
+      editPost(vuexContext, editedPost) {
+        return axios.put('http://localhost:8080/rest/e1/posts/' + editedPost.id, editedPost, {headers: {Authorization: 'Basic am9obi5kb2U6bW9xdWk='}})
+          .then(res=>{
+            vuexContext.commit('editPost', editedPost)
+          })
+        .catch(e=>console.error(e))
       },
       setPosts(vuexContext, posts) {
         vuexContext.commit('setPosts', posts)
