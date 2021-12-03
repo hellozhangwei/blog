@@ -17,6 +17,12 @@ const createStore = ()=> {
         const postIndex = state.loadedPosts.findIndex(post=>post.id===editedPost.id)
 
         state.loadedPosts[postIndex] = editedPost
+      },
+      setToken(state, token) {
+        state.token = token // this is used for api_key
+      },
+      setMoquiSessionToken(state, moquiSessionToken) {
+        state.moquiSessionToken = moquiSessionToken
       }
     },
     actions: {
@@ -61,7 +67,8 @@ const createStore = ()=> {
       },
       addPost(vuexContext, post) {
         const createdPost = {...post, updatedDate:new Date()}
-        return axios.post('http://localhost:8080/rest/e1/posts', createdPost, {headers: {Authorization: 'Basic am9obi5kb2U6bW9xdWk='}})
+        //return axios.post('http://localhost:8080/rest/e1/posts', createdPost, {headers: {Authorization: 'Basic am9obi5kb2U6bW9xdWk='}})
+        return axios.post('http://localhost:8080/rest/e1/posts', createdPost, {headers: {api_key:vuexContext.state.token, moquiSessionToken:vuexContext.state.moquiSessionToken}})
           .then(res=>{
             console.log('-----------66-------------res----' + JSON.stringify(res))
             vuexContext.commit('addPost', {...createdPost, id:res.data.id})
@@ -69,7 +76,8 @@ const createStore = ()=> {
           .catch(e=>console.error(e))
       },
       editPost(vuexContext, editedPost) {
-        return axios.put('http://localhost:8080/rest/e1/posts/' + editedPost.id, editedPost, {headers: {Authorization: 'Basic am9obi5kb2U6bW9xdWk='}})
+        //return axios.put('http://localhost:8080/rest/e1/posts/' + editedPost.id, editedPost, {headers: {Authorization: 'Basic am9obi5kb2U6bW9xdWk='}})
+        return axios.put('http://localhost:8080/rest/e1/posts/' + editedPost.id, editedPost, {headers: {api_key:vuexContext.state.token, moquiSessionToken:vuexContext.state.moquiSessionToken}})
           .then(res=>{
             vuexContext.commit('editPost', editedPost)
           })
@@ -77,10 +85,31 @@ const createStore = ()=> {
       },
       setPosts(vuexContext, posts) {
         vuexContext.commit('setPosts', posts)
-      }},
+      },
+      authenticateUser(vuexContext, authData) {
+        let authUrl = 'http://localhost:8080/rest/s1/pop/login'
+
+        if(!authData.isLogin) {
+          authUrl = 'http://localhost:8080/rest/s1/pop/register'
+        }
+
+        axios.post(authUrl, {username:authData.username, password:authData.password})
+          .then(res=>{
+            console.log(res)
+            console.log('---apiKey-----' + res.data.apiKey)
+            console.log('----moquiSessionToken------' + res.data.moquiSessionToken)
+            vuexContext.commit('setToken', res.data.apiKey)
+            vuexContext.commit('setMoquiSessionToken', res.data.moquiSessionToken)
+          })
+          .catch(e=>console.error(e))
+      }
+    },
     getters: {
       loadedPosts(state) {
         return state.loadedPosts
+      },
+      isAuthenticated(state) {
+        //return state.token!=null && state.moquiSessionToken!=null
       }
     }
   })

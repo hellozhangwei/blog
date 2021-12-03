@@ -44,8 +44,6 @@
             return {loadedPost: res.data}
           })
           .catch(e=> console.error(e))
-      
-      
     }
   }
 </script>
